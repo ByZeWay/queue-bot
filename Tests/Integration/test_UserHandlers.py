@@ -3,7 +3,7 @@ import pytest
 from Requests.UserHandlers import UserHandlers
 from Requests.RuntimeInfoManager import RuntimeInfoManager
 from telebot import types, TeleBot
-import TgUtil.KeyboardMarkups as km
+import TgUtils.KeyboardMarkups as km
 from Services.MemberService import MemberService
 
 

@@ -7,7 +7,7 @@ from Requests.RuntimeInfoManager import RuntimeInfoManager
 from telebot import types, TeleBot
 from Services.QueueService import QueueService
 from Services.SubjectService import SubjectService
-import TgUtil.KeyboardMarkups as km
+import TgUtils.KeyboardMarkups as km
 from Services.MemberService import MemberService
 
 

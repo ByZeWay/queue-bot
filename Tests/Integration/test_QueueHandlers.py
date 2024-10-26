@@ -5,7 +5,7 @@ from Entities.Subject import Subject
 from Requests.QueueEntity import QueueEntity
 from Requests.RuntimeInfoManager import RuntimeInfoManager
 from telebot import types, TeleBot
-import TgUtil.KeyboardMarkups as km
+import TgUtils.KeyboardMarkups as km
 from Services.SubjectService import SubjectService
 from Services.QueueService import QueueService
 
