@@ -64,7 +64,7 @@ jobs:
                                                                                             TABLESPACE = pg_default
                                                                                             CONNECTION LIMIT = -1
                                                                                             IS_TEMPLATE = False;'
-        psql -U postgres -h localhost -p ${{ job.services.postgres.ports['5432'] }} -d queue_db -a -f DbUtils/create_db_structure.sql
+        psql -U postgres -h localhost -p ${{ job.services.postgres.ports['5432'] }} -d queue_db -a -f Src/DbUtils/create_db_structure.sql
     - name: Run Unit tests
       run: |
         pytest -m unit
