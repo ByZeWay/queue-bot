@@ -139,13 +139,13 @@ jobs:
       run: |
         docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
-    - name: Save and transfer Docker image to remote server
+    - name: Deploy container on remote server
       if: success()
       env:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
       run: |
-         ssh $REMOTE_USER@$REMOTE_HOST "docker compose up -d" 
+         ssh $REMOTE_USER@$REMOTE_HOST "cd queue-bot/ && docker compose up -d" 
 
 #    - name: Deploy container on remote server
 #      if: success()
