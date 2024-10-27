@@ -121,7 +121,7 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
       run: |
-        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
+        docker save queue-bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
     - name: Deploy container on remote server
       if: success()
