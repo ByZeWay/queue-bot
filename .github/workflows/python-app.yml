@@ -124,10 +124,10 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TOKEN: ${{ secrets.TOKEN }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_USER: ${{ secrets.user }}
+        DB_PASSWORD: ${{ secrets.password }}
+        DB_NAME: ${{ secrets.db_name }}
+        DB_PORT: ${{ secrets.port }}
       run: |
         ssh $REMOTE_USER@$REMOTE_HOST "
             TOKEN=$TOKEN \
