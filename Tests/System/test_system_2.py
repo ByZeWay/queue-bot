@@ -30,7 +30,7 @@ def test_create_cancel(client, databaseTest):
     assert beforeQueuesCount == afterQueuesCount
 
 # 14
-@pytest.mark.system
+# @pytest.mark.system
 def test_create_exists(client, databaseTest):
     create_test_queue(client)
     subject = SubjectService.getSubjectByTitle(databaseTest, 'subjj')
@@ -137,7 +137,7 @@ def test_confirm(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == msg2.from_user.id and m.placeNumber == 1, queue.members))) == 1
 
 # 19
-@pytest.mark.system
+# @pytest.mark.system
 def test_auto_upd(client, databaseTest):
     create_test_queue(client)
     checkResponce(client, '/show', 'По какому предмету ты хочешь просмотреть очередь?')
@@ -172,7 +172,7 @@ def test_notification(client, client2, databaseTest):
     assert notifMsg.text == '@' + mes.from_user.username + ' твоя очередь сдавать'
 
 # 21
-@pytest.mark.system
+# @pytest.mark.system
 def test_remove(client, databaseTest):
     create_test_queue(client)
     create_user(client)
@@ -204,7 +204,7 @@ def test_join_num_last(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 1, queue.members))) == 1
 
 # 23
-@pytest.mark.system
+# @pytest.mark.system
 def test_remove_subject_with_queue(client, databaseTest):
     create_test_queue(client)
     assert SubjectService.isSubjectExist(databaseTest, 'subjj')

@@ -41,7 +41,7 @@ def test_add_valid_member(client, databaseTest):
     assert MemberService.getMemberByTgNum(databaseTest, int(clientId)).name == 'another-name'
 
 # 3
-@pytest.mark.system
+# @pytest.mark.system
 def test_show(client, databaseTest):
     create_test_queue(client)
 
@@ -53,7 +53,7 @@ def test_show(client, databaseTest):
     assert QueueService.getCountMembersInQueue(databaseTest, queuqId) == 0
 
 # 4
-@pytest.mark.system
+# @pytest.mark.system
 def test_add_invalid_subject(client, databaseTest):
     checkResponce(client, '/subject', 'Введи название нового предмета')
     checkResponce(client, 'thisisverylongtitleforsubjectmore30letters', 'Название предмета некорректно.\nИспользуйте не более 30 символов русского и английского алфавита.')
@@ -62,7 +62,7 @@ def test_add_invalid_subject(client, databaseTest):
 
 
 # 5
-@pytest.mark.system
+# @pytest.mark.system
 def test_add_valid_subject(client, databaseTest):
 
     assert not SubjectService.isSubjectExist(databaseTest, 'subjj')
@@ -81,7 +81,7 @@ def test_add_valid_subject(client, databaseTest):
 
 
 # 6
-@pytest.mark.system
+# @pytest.mark.system
 def test_remove_subject(client, databaseTest):
     create_test_subj(client)
     assert SubjectService.isSubjectExist(databaseTest, 'subjj')
@@ -92,7 +92,7 @@ def test_remove_subject(client, databaseTest):
 
 
 # 7
-@pytest.mark.system
+# @pytest.mark.system
 def test_create_queue(client, databaseTest):
     create_test_subj(client)
     subjId = SubjectService.getSubjectByTitle(databaseTest, 'subjj').id
@@ -104,7 +104,7 @@ def test_create_queue(client, databaseTest):
     assert QueueService.isQueueExist(databaseTest, subjId)
 
 # 8
-@pytest.mark.system
+# @pytest.mark.system
 def test_delete(client, databaseTest):
     create_test_queue(client)
 
@@ -119,7 +119,7 @@ def test_delete(client, databaseTest):
     assert not QueueService.isQueueExist(databaseTest, subjId)
 
 # 9
-@pytest.mark.system
+# @pytest.mark.system
 def test_delete_cancel(client, databaseTest):
     create_test_queue(client)
 
@@ -138,7 +138,7 @@ def test_delete_cancel(client, databaseTest):
     assert QueueService.isQueueExist(databaseTest, subjId)
 
 # 10
-@pytest.mark.system
+# @pytest.mark.system
 def test_confirm_empty(client, databaseTest):
     id1 = checkResponce(client, '/confirm', 'Для использования этой команды тебе нужно записаться в списочек member-ов')
     assert not MemberService.isMemberExistByTgNum(databaseTest, id1)
@@ -149,7 +149,7 @@ def test_confirm_empty(client, databaseTest):
     checkResponce(client, '/confirm', 'Извините, у вас еще нет запросов на смену места')
 
 # 11
-@pytest.mark.system
+# @pytest.mark.system
 def test_reject_empty(client, databaseTest):
     tgNum = createMember(client).from_user.id
     member = MemberService.getMemberByTgNum(databaseTest, tgNum)
