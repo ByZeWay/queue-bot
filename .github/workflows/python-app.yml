@@ -139,6 +139,11 @@ jobs:
       run: |
         docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
+    - name: Save and transfer Docker image to remote server
+      if: success()
+      run: |
+         ssh $REMOTE_USER@$REMOTE_HOST "docker compose up" 
+
 #    - name: Deploy container on remote server
 #      if: success()
 #      env:
