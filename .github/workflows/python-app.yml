@@ -99,47 +99,48 @@ jobs:
       run: |
         docker-compose -f docker-compose.yml build
 
-    - name: Run on Pipeline
-      if: success()
-      run: |
-        docker-compose up -d &
-  
+#    - name: Run on Pipeline
+#      if: success()
+#      run: |
+#        docker-compose up -d &
 
-#    - name: Set up SSH
-#      env:
-#        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#      run: |
-#        mkdir -p ~/.ssh
-#        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-#        chmod 600 ~/.ssh/id_rsa
-#        ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
-#
-#    - name: Save and transfer Docker image to remote server
-#      if: success()
-#      env:
-#        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#        REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-#      run: |
-#        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
-#
-#    - name: Deploy container on remote server
-#      if: success()
-#      env:
-#        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#        TOKEN: ${{ secrets.TOKEN }}
-#        DB_USER: ${{ secrets.user }}
-#        DB_PASSWORD: ${{ secrets.password }}
-#        DB_NAME: ${{ secrets.db_name }}
-#        DB_PORT: ${{ secrets.port }}
-#      run: |
-#        ssh $REMOTE_USER@$REMOTE_HOST "
-#            TOKEN=$TOKEN \
-#            DB_USER=$DB_USER \
-#            DB_PASSWORD=$DB_PASSWORD \
-#            DB_NAME=$DB_NAME \
-#            DB_PORT=$DB_PORT \
-#            docker compose -f $REMOTE_PATH/docker-compose.yml up -d --force-recreate
-#          "
+    - name: Set up SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
+
+    - name: Save and transfer Docker image to remote server
+      if: success()
+      env:
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+      run: |
+        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
+
+    - name: Deploy container on remote server
+      if: success()
+      env:
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TOKEN: ${{ secrets.TOKEN }}
+        DB_USER: ${{ secrets.user }}
+        DB_PASSWORD: ${{ secrets.password }}
+        DB_NAME: ${{ secrets.db_name }}
+        DB_PORT: ${{ secrets.port }}
+        chat_id: ${{ secrets.CHAT_ID }}
+        bot_id: ${{ secrets.BOT_ID }}
+      run: |
+        ssh $REMOTE_USER@$REMOTE_HOST "
+            TOKEN=$TOKEN \
+            DB_USER=$DB_USER \
+            DB_PASSWORD=$DB_PASSWORD \
+            DB_NAME=$DB_NAME \
+            DB_PORT=$DB_PORT \
+            docker compose -f $REMOTE_PATH/docker-compose.yml up -d --force-recreate
+          "
