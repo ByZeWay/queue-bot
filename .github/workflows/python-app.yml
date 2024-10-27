@@ -129,6 +129,13 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+        TOKEN: ${{ secrets.TOKEN }}
+        DB_USER: ${{ secrets.user }}
+        DB_PASSWORD: ${{ secrets.password }}
+        DB_NAME: ${{ secrets.db_name }}
+        DB_PORT: ${{ secrets.port }}
+        chat_id: ${{ secrets.CHAT_ID }}
+        bot_id: ${{ secrets.BOT_ID }}
       run: |
         docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 

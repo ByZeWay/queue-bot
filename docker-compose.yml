@@ -13,8 +13,8 @@ services:
       - port=${port}
     depends_on:
       - db
-    volumes:
-      - .:/app
+#    volumes:
+#      - .:/app
 
   db:
     image: postgres:15
@@ -23,9 +23,9 @@ services:
       POSTGRES_USER: ${user}
       POSTGRES_PASSWORD: ${password}
       POSTGRES_DB: ${db_name}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./Src/DbUtils/create_db_structure_v2.sql:/docker-entrypoint-initdb.d/create_db_structure_v2.sql
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#      - ./Src/DbUtils/create_db_structure_v2.sql:/docker-entrypoint-initdb.d/create_db_structure_v2.sql
     ports:
       - "5433:5433"
 
