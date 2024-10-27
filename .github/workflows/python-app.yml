@@ -121,7 +121,7 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
       run: |
-        docker save queue-bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
+        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
     - name: Deploy container on remote server
       if: success()
@@ -142,5 +142,5 @@ jobs:
             DB_PASSWORD=$DB_PASSWORD \
             DB_NAME=$DB_NAME \
             DB_PORT=$DB_PORT \
-            docker compose -f $REMOTE_PATH/docker-compose.yml up -d --force-recreate
+            docker compose -f $REMOTE_PATH/docker-compose.yml start 
           "
