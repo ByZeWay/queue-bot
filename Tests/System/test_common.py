@@ -8,6 +8,8 @@ from telebot import types
 from pyrogram import Client
 from dotenv import load_dotenv
 
+from DbUtils.db import Database
+
 load_dotenv()
 bot_id = int(os.getenv('bot_id'))
 chat_id = int(os.getenv('chat_id'))
@@ -69,7 +71,7 @@ def client2():
 
 @pytest.fixture(scope='session')
 def databaseTest():
-    return DatabaseTest()
+    return Database()
 
 @pytest.fixture(autouse=True)
 def beforeTest(databaseTest):
