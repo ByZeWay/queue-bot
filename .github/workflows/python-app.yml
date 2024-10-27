@@ -142,7 +142,7 @@ jobs:
     - name: Save and transfer Docker image to remote server
       if: success()
       run: |
-         ssh $REMOTE_USER@$REMOTE_HOST "docker compose up" 
+         ssh $REMOTE_USER@$REMOTE_HOST "docker compose up -d" 
 
 #    - name: Deploy container on remote server
 #      if: success()
