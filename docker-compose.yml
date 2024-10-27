@@ -48,14 +48,3 @@ services:
       - port=${port}
     ports:
       - "5432:5432"
-
-
-#    depends_on:
-#      - db
-#  db:
-#    image: postgres:15
-#    container_name: db
-#    environment:
-#      - POSTGRES_USER=${user}
-#      - POSTGRES_PASSWORD=${password}
-#      - POSTGRES_DB=${db_name}

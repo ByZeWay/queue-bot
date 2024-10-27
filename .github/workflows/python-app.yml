@@ -131,4 +131,4 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
       run: |
-         ssh $REMOTE_USER@$REMOTE_HOST "cd queue-bot/ && docker compose up -d"
+         ssh $REMOTE_USER@$REMOTE_HOST "cd queue-bot/ && docker network connect bot_network queue_bot && docker compose up -d"
