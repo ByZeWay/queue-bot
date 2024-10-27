@@ -116,12 +116,24 @@ jobs:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
       run: |
-        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "touch test.txt"
+        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
     - name: Deploy container on remote server
       if: success()
       env:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TOKEN: ${{ secrets.TOKEN }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PORT: ${{ secrets.DB_PORT }}
       run: |
-        ssh $REMOTE_USER@$REMOTE_HOST "docker-compose -f $REMOTE_PATH/docker-compose.yml up -d --force-recreate"
+        ssh $REMOTE_USER@$REMOTE_HOST "
+            TOKEN=$TOKEN \
+            DB_USER=$DB_USER \
+            DB_PASSWORD=$DB_PASSWORD \
+            DB_NAME=$DB_NAME \
+            DB_PORT=$DB_PORT \
+            docker-compose -f $REMOTE_PATH/docker-compose.yml up -d --force-recreate
+          "
