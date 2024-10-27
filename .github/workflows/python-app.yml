@@ -114,6 +114,15 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
 
+#    - name: Copy docker-compose.yml to remote server
+#      if: success()
+#      env:
+#        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+#        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+#        REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+#      run: |
+#        scp -o StrictHostKeyChecking=no docker-compose.yml $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/
+
     - name: Save and transfer Docker image to remote server
       if: success()
       env:
@@ -123,24 +132,24 @@ jobs:
       run: |
         docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
 
-    - name: Deploy container on remote server
-      if: success()
-      env:
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        TOKEN: ${{ secrets.TOKEN }}
-        DB_USER: ${{ secrets.user }}
-        DB_PASSWORD: ${{ secrets.password }}
-        DB_NAME: ${{ secrets.db_name }}
-        DB_PORT: ${{ secrets.port }}
-        chat_id: ${{ secrets.CHAT_ID }}
-        bot_id: ${{ secrets.BOT_ID }}
-      run: |
-        ssh $REMOTE_USER@$REMOTE_HOST "
-            TOKEN=$TOKEN \
-            DB_USER=$DB_USER \
-            DB_PASSWORD=$DB_PASSWORD \
-            DB_NAME=$DB_NAME \
-            DB_PORT=$DB_PORT \
-            docker compose -f $REMOTE_PATH/docker-compose.yml start 
-          "
+#    - name: Deploy container on remote server
+#      if: success()
+#      env:
+#        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+#        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+#        TOKEN: ${{ secrets.TOKEN }}
+#        DB_USER: ${{ secrets.user }}
+#        DB_PASSWORD: ${{ secrets.password }}
+#        DB_NAME: ${{ secrets.db_name }}
+#        DB_PORT: ${{ secrets.port }}
+#        chat_id: ${{ secrets.CHAT_ID }}
+#        bot_id: ${{ secrets.BOT_ID }}
+#      run: |
+#        ssh $REMOTE_USER@$REMOTE_HOST "
+#            TOKEN=$TOKEN \
+#            DB_USER=$DB_USER \
+#            DB_PASSWORD=$DB_PASSWORD \
+#            DB_NAME=$DB_NAME \
+#            DB_PORT=$DB_PORT \
+#            docker compose -f $REMOTE_PATH/docker-compose.yml up -d
+#          "
