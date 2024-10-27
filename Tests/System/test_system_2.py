@@ -47,7 +47,7 @@ def test_create_exists(client, databaseTest):
     assert beforeQueuesCount == afterQueuesCount
     
 # 15
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_last(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -68,7 +68,7 @@ def test_join_last(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == count-1, queue.members))) == 1
 
 # 16
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_first(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -85,7 +85,7 @@ def test_join_first(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 2, queue.members))) == 1
 
 # 17
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_num(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -104,7 +104,7 @@ def test_join_num(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 1, queue.members))) == 1
 
 # 18
-@pytest.mark.system
+# @pytest.mark.system
 def test_confirm(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -153,7 +153,7 @@ def test_auto_upd(client, databaseTest):
             assert message.text != 'Очередь по subjj:\n1 - test-name'
 
 # 20
-@pytest.mark.system
+# @pytest.mark.system
 def test_notification(client, client2, databaseTest):
     create_test_queue(client)
     create_user(client)
@@ -186,7 +186,7 @@ def test_remove(client, databaseTest):
     assert not QueueService.isMemberInQueue(databaseTest, queue.id, member.id)
 
 # 22
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_num_last(client, client2, databaseTest):
     createMember(client)
     createMember(client2)

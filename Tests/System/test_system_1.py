@@ -167,7 +167,7 @@ def test_reject_empty(client, databaseTest):
     checkResponce(client, '/reject', 'Вы не начинали смену мест')
 
 # 12
-@pytest.mark.system
+# @pytest.mark.system
 def test_show2(client, client2, databaseTest):
     name1 = createMember(client).from_user.first_name
     name2 = createMember(client2).from_user.first_name

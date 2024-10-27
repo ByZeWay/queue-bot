@@ -35,12 +35,6 @@ jobs:
       password: ${{ secrets.PASSWORD }}
       db_name: ${{ secrets.DB_NAME }}
       port: ${{ secrets.PORT }}
-      api_id: ${{ secrets.API_ID }}
-      api_hash: ${{ secrets.API_HASH }}
-      session_string: ${{ secrets.API_SESSION }}
-      api_id2: ${{ secrets.API_ID2 }}
-      api_hash2: ${{ secrets.API_HASH2 }}
-      session_string2: ${{ secrets.API_SESSION2 }}
       bot_id: ${{ secrets.BOT_ID }}
       PGPASSWORD: postgres
 
@@ -81,9 +75,13 @@ jobs:
       run: |
         python Src/queueBot.py &
 
-#    - name: Run System tests
-#      run: |
-#        pytest -m system
+    - name: Run System tests
+      env:
+        api_id: ${{ secrets.API_ID }}
+        api_hash: ${{ secrets.API_HASH }}
+        session_string: ${{ secrets.API_SESSION }}
+      run: |
+        pytest -m system
 
     - name: Stop tg-bot
       run: |
