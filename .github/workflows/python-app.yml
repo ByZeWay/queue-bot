@@ -141,6 +141,9 @@ jobs:
 
     - name: Save and transfer Docker image to remote server
       if: success()
+      env:
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
       run: |
          ssh $REMOTE_USER@$REMOTE_HOST "docker compose up -d" 
 
