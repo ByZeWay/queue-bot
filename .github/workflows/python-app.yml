@@ -99,7 +99,7 @@ jobs:
       run: |
         docker-compose -f docker-compose.yml build
         
-    - name: Save and Transfer Docker image to remote server
+    - name: Save and transfer Docker image to remote server
       if: success()
       env:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
