@@ -15,6 +15,7 @@ from Entities import Queue
 
 from test_common import *
 
+
 def get_peer_type_new(peer_id: int) -> str:
     peer_id_str = str(peer_id)
     if not peer_id_str.startswith("-"):
@@ -25,6 +26,7 @@ def get_peer_type_new(peer_id: int) -> str:
         return "chat"
 
 utils.get_peer_type = get_peer_type_new
+
 
 # 1
 @pytest.mark.system

@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 from DbUtils.db import Database
 
+
 def get_peer_type_new(peer_id: int) -> str:
     peer_id_str = str(peer_id)
     if not peer_id_str.startswith("-"):
@@ -21,6 +22,7 @@ def get_peer_type_new(peer_id: int) -> str:
         return "chat"
 
 utils.get_peer_type = get_peer_type_new
+
 
 load_dotenv()
 bot_id = int(os.getenv('bot_id'))
