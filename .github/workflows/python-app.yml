@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "cicd" ]
   pull_request:
-    branches: [ "cicd" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
