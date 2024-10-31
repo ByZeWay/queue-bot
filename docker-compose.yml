@@ -6,28 +6,10 @@ services:
     image: bot
     environment:
       - TOKEN=${TOKEN}
-      - host=db
+      - host=${host}
       - user=${user}
       - password=${password}
       - db_name=${db_name}
       - port=${port}
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-
-  db:
-    image: postgres:15
-    container_name: db
-    environment:
-      POSTGRES_USER: ${user}
-      POSTGRES_PASSWORD: ${password}
-      POSTGRES_DB: ${db_name}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./Src/DbUtils/create_db_structure_v2.sql:/docker-entrypoint-initdb.d/create_db_structure_v2.sql
     ports:
       - "5432:5432"
-
-volumes:
-  postgres_data:

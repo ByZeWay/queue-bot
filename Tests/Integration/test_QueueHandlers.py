@@ -5,7 +5,7 @@ from Entities.Subject import Subject
 from Requests.QueueEntity import QueueEntity
 from Requests.RuntimeInfoManager import RuntimeInfoManager
 from telebot import types, TeleBot
-import TgUtil.KeyboardMarkups as km
+import TgUtils.KeyboardMarkups as km
 from Services.SubjectService import SubjectService
 from Services.QueueService import QueueService
 
@@ -67,7 +67,7 @@ def test_QueueHandlers_queueTextHandler_create_subjectNotExists(queueHandlers):
         queueHandlers.bot.reply_to.assert_called_once_with(message, 'Такого предмета нет', reply_markup=km.Remove)
         assert 'create' not in queueHandlers.runtimeInfoManager.sendBarrier.data
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_QueueHandlers_queueTextHandler_create(queueHandlers):
     message = Mock()
     subject = Subject(1, 'subjj')

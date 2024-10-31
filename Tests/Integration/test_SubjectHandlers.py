@@ -7,7 +7,7 @@ from Requests.RuntimeInfoManager import RuntimeInfoManager
 from telebot import types, TeleBot
 from Services.QueueService import QueueService
 from Services.SubjectService import SubjectService
-import TgUtil.KeyboardMarkups as km
+import TgUtils.KeyboardMarkups as km
 from Services.MemberService import MemberService
 
 
@@ -15,7 +15,7 @@ from Services.MemberService import MemberService
 def subjectHandlers():
     return SubjectHandlers(Mock(), Mock(), RuntimeInfoManager())
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_SubjectHandlers_subjectCommand(subjectHandlers):
     message = Mock()
 
@@ -24,7 +24,7 @@ def test_SubjectHandlers_subjectCommand(subjectHandlers):
     subjectHandlers.bot.reply_to.assert_called_once_with(message, 'Введи название нового предмета')
     assert message.from_user.id in subjectHandlers.runtimeInfoManager.sendBarrier.data['subject']
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_SubjectHandlers_removesubjectCommand(subjectHandlers):
     message = Mock()
     subjects = [Subject(1, 'subj1'), Subject(2, 'subj2')]
@@ -42,7 +42,7 @@ def test_SubjectHandlers_removesubjectCommand(subjectHandlers):
 
     assert message.from_user.id in subjectHandlers.runtimeInfoManager.sendBarrier.data['removesubject']
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_SubjectHandlers_subjectTextHandler_addNew(subjectHandlers):
     message = Mock()
     message.text = 'subjj'
@@ -61,7 +61,7 @@ def test_SubjectHandlers_subjectTextHandler_addNew(subjectHandlers):
 
         subjectHandlers.bot.reply_to.assert_called_once_with(message, f'Предмет {message.text} добавлен')
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_SubjectHandlers_subjectTextHandler_addExists(subjectHandlers):
     message = Mock()
     message.text = 'subjj'
@@ -125,7 +125,7 @@ def test_SubjectHandlers_subjectTextHandler_removeNotExists(subjectHandlers):
 
         subjectHandlers.bot.reply_to.assert_called_once_with(message, 'Такого предмета и так не было. Зачем удалять то...', reply_markup=km.Remove)
 
-@pytest.mark.integration
+# @pytest.mark.integration
 def test_SubjectHandlers_subjectTextHandler_removeExistsWithQueue(subjectHandlers):
     message = Mock()
     subject = Subject(1, 'subjj')

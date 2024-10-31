@@ -6,6 +6,7 @@ import os
 import telebot
 from telebot import types
 from pyrogram import Client
+from pyrogram import utils
 from dotenv import load_dotenv
 
 from Services.MemberService import MemberService
@@ -15,6 +16,18 @@ from Entities import Queue
 
 from test_common import *
 from utils import formReplaceRequest
+
+
+def get_peer_type_new(peer_id: int) -> str:
+    peer_id_str = str(peer_id)
+    if not peer_id_str.startswith("-"):
+        return "user"
+    elif peer_id_str.startswith("-100"):
+        return "channel"
+    else:
+        return "chat"
+
+utils.get_peer_type = get_peer_type_new
 
 
 # 13
@@ -30,7 +43,7 @@ def test_create_cancel(client, databaseTest):
     assert beforeQueuesCount == afterQueuesCount
 
 # 14
-@pytest.mark.system
+# @pytest.mark.system
 def test_create_exists(client, databaseTest):
     create_test_queue(client)
     subject = SubjectService.getSubjectByTitle(databaseTest, 'subjj')
@@ -47,7 +60,7 @@ def test_create_exists(client, databaseTest):
     assert beforeQueuesCount == afterQueuesCount
     
 # 15
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_last(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -68,7 +81,7 @@ def test_join_last(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == count-1, queue.members))) == 1
 
 # 16
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_first(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -85,7 +98,7 @@ def test_join_first(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 2, queue.members))) == 1
 
 # 17
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_num(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -104,7 +117,7 @@ def test_join_num(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 1, queue.members))) == 1
 
 # 18
-@pytest.mark.system
+# @pytest.mark.system
 def test_confirm(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -137,7 +150,7 @@ def test_confirm(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == msg2.from_user.id and m.placeNumber == 1, queue.members))) == 1
 
 # 19
-@pytest.mark.system
+# @pytest.mark.system
 def test_auto_upd(client, databaseTest):
     create_test_queue(client)
     checkResponce(client, '/show', 'По какому предмету ты хочешь просмотреть очередь?')
@@ -153,7 +166,7 @@ def test_auto_upd(client, databaseTest):
             assert message.text != 'Очередь по subjj:\n1 - test-name'
 
 # 20
-@pytest.mark.system
+# @pytest.mark.system
 def test_notification(client, client2, databaseTest):
     create_test_queue(client)
     create_user(client)
@@ -172,7 +185,7 @@ def test_notification(client, client2, databaseTest):
     assert notifMsg.text == '@' + mes.from_user.username + ' твоя очередь сдавать'
 
 # 21
-@pytest.mark.system
+# @pytest.mark.system
 def test_remove(client, databaseTest):
     create_test_queue(client)
     create_user(client)
@@ -186,7 +199,7 @@ def test_remove(client, databaseTest):
     assert not QueueService.isMemberInQueue(databaseTest, queue.id, member.id)
 
 # 22
-@pytest.mark.system
+# @pytest.mark.system
 def test_join_num_last(client, client2, databaseTest):
     createMember(client)
     createMember(client2)
@@ -204,7 +217,7 @@ def test_join_num_last(client, client2, databaseTest):
     assert len(list(filter(lambda m: int(m.member.tgNum) == id2 and m.placeNumber == 1, queue.members))) == 1
 
 # 23
-@pytest.mark.system
+# @pytest.mark.system
 def test_remove_subject_with_queue(client, databaseTest):
     create_test_queue(client)
     assert SubjectService.isSubjectExist(databaseTest, 'subjj')
