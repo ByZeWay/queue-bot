@@ -4,8 +4,8 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "cicd" ]
+#  push:
+#    branches: [ "cicd" ]
   pull_request:
     branches: [ "main" ]
 
