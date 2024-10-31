@@ -5,6 +5,7 @@ import os
 
 import telebot
 from pyrogram import Client
+from pyrogram import utils
 from dotenv import load_dotenv
 
 from Services.MemberService import MemberService
@@ -14,6 +15,16 @@ from Entities import Queue
 
 from test_common import *
 
+def get_peer_type_new(peer_id: int) -> str:
+    peer_id_str = str(peer_id)
+    if not peer_id_str.startswith("-"):
+        return "user"
+    elif peer_id_str.startswith("-100"):
+        return "channel"
+    else:
+        return "chat"
+
+utils.get_peer_type = get_peer_type_new
 
 # 1
 @pytest.mark.system
