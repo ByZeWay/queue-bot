@@ -42,7 +42,7 @@ jobs:
       session_string: ${{ secrets.API_SESSION }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -101,7 +101,7 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -156,7 +156,7 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -214,7 +214,7 @@ jobs:
       session_string: ${{ secrets.API_SESSION }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -268,6 +268,8 @@ jobs:
       bot_id: ${{ secrets.BOT_ID }}
 
     steps:
+    - uses: actions/checkout@v4
+
     - name: Install Docker Compose
       run: |
         curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -295,34 +297,36 @@ jobs:
       bot_id: ${{ secrets.BOT_ID }}
 
     steps:
-      - name: Install Docker Compose
-        run: |
-          curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
+    - uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          docker-compose -f docker-compose.yml build
+    - name: Install Docker Compose
+      run: |
+        curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
 
-      - name: Set up SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
+    - name: Build Docker image
+      run: |
+        docker-compose -f docker-compose.yml build
 
-      - name: Save and transfer Docker image to remote server
-        if: success()
-        run: |
-          docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
+    - name: Set up SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
 
-      - name: Deploy container on remote server
-        if: success()
-        env:
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        run: |
-          ssh $REMOTE_USER@$REMOTE_HOST "cd queue-bot/ && docker compose up -d"
+    - name: Save and transfer Docker image to remote server
+      if: success()
+      run: |
+        docker save bot | ssh $REMOTE_USER@$REMOTE_HOST "docker load"
+
+    - name: Deploy container on remote server
+      if: success()
+      env:
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      run: |
+        ssh $REMOTE_USER@$REMOTE_HOST "cd queue-bot/ && docker compose up -d"
