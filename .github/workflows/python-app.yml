@@ -4,17 +4,18 @@
 name: Python application
 
 on:
-#  push:
-#    branches: [ "cicd" ]
+  push:
+    branches: [ "cicd" ]
   pull_request:
     branches: [ "main" ]
 
 permissions:
   contents: read
 
+
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     services:
@@ -63,14 +64,29 @@ jobs:
                                                                                             IS_TEMPLATE = False;'
         psql -U postgres -h localhost -p ${{ job.services.postgres.ports['5432'] }} -d queue_db -a -f Src/DbUtils/create_db_structure.sql
 
+  test-unit:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
     - name: Run Unit tests
       run: |
         pytest -m unit
 
+  test-integration:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
     - name: Run Integration tests
       run: |
         pytest -m integration
 
+  test-system:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
     - name: Run tg-bot
       run: |
         python Src/queueBot.py &
@@ -87,6 +103,11 @@ jobs:
       run: |
         pkill -f queueBot.py
 
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
     - name: Install Docker Compose
       run: |
         curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
